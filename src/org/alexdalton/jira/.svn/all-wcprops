@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/63/trunk/android/src/org/alexdalton/jira
+END
+ServerList.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/57/trunk/android/src/org/alexdalton/jira/ServerList.java
+END
+JiraConn.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/57/trunk/android/src/org/alexdalton/jira/JiraConn.java
+END
+JiraServersDB.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/57/trunk/android/src/org/alexdalton/jira/JiraServersDB.java
+END
+Search.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/49/trunk/android/src/org/alexdalton/jira/Search.java
+END
+JiraPreferences.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/50/trunk/android/src/org/alexdalton/jira/JiraPreferences.java
+END
+About.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/49/trunk/android/src/org/alexdalton/jira/About.java
+END
+EditServer.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/57/trunk/android/src/org/alexdalton/jira/EditServer.java
+END
+CreateIssue.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/61/trunk/android/src/org/alexdalton/jira/CreateIssue.java
+END
+JiraFilters.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/57/trunk/android/src/org/alexdalton/jira/JiraFilters.java
+END
+IssueList.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/49/trunk/android/src/org/alexdalton/jira/IssueList.java
+END
+IssueListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/49/trunk/android/src/org/alexdalton/jira/IssueListAdapter.java
+END
+OJActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/49/trunk/android/src/org/alexdalton/jira/OJActivity.java
+END
+JiraApp.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/57/trunk/android/src/org/alexdalton/jira/JiraApp.java
+END
+JiraDB.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/63/trunk/android/src/org/alexdalton/jira/JiraDB.java
+END
+IssueDetails.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/49/trunk/android/src/org/alexdalton/jira/IssueDetails.java
+END
+CommentListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/26/trunk/android/src/org/alexdalton/jira/CommentListAdapter.java
+END

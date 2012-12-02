@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Open JIRA</string>
+    <string name="summary">Summary</string>
+    <string name="status">Status</string>
+    <string name="votes">Votes</string>
+    <string name="priority">Priority</string>
+    <string name="type">Type</string>
+    <string name="creator">Creator</string>
+    <string name="project">Project</string>
+    <string name="description">Description</string>
+    
+    <string name="preferences">preferences</string>
+    
+    <string name="servername">Servername</string>
+    <string name="serverurl">Server URL</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="save">Save</string>
+    <string name="connection_test">Testing connection</string>
+    
+    <!-- Serverlist Optionmenu -->
+    <string name="m_serverlist_addserver">Add Server</string>
+    
+    <!-- serverlist context menu -->
+    <string name="cm_serverlist_title">Actions</string>
+    <string name="delete_server">Delete Server</string>
+    <string name="edit_server">Edit Server</string>
+    
+</resources>

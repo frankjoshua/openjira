@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/57/trunk/android/res/layout
+END
+issuelistitem.xml
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/35/trunk/android/res/layout/issuelistitem.xml
+END
+main.xml
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/49/trunk/android/res/layout/main.xml
+END
+issuelist.xml
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/47/trunk/android/res/layout/issuelist.xml
+END
+search.xml
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/32/trunk/android/res/layout/search.xml
+END
+titlebar.xml
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/49/trunk/android/res/layout/titlebar.xml
+END
+filters.xml
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/49/trunk/android/res/layout/filters.xml
+END
+editserverlist.xml
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/57/trunk/android/res/layout/editserverlist.xml
+END
+listitem.xml
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/26/trunk/android/res/layout/listitem.xml
+END
+about.xml
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/41/trunk/android/res/layout/about.xml
+END
+createissue.xml
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/48/trunk/android/res/layout/createissue.xml
+END
+commentlistitem.xml
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/26/trunk/android/res/layout/commentlistitem.xml
+END
+issuedetails.xml
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/50/trunk/android/res/layout/issuedetails.xml
+END
+serverlist.xml
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/57/trunk/android/res/layout/serverlist.xml
+END

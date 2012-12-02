@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/30/trunk/android/src/org/alexdalton/jira/utils
+END
+TrustAllManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/22/trunk/android/src/org/alexdalton/jira/utils/TrustAllManager.java
+END
+TrustAllSSLSocketFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/22/trunk/android/src/org/alexdalton/jira/utils/TrustAllSSLSocketFactory.java
+END
+ConnectionClient.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/30/trunk/android/src/org/alexdalton/jira/utils/ConnectionClient.java
+END
+LoadImageAsync.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/27/trunk/android/src/org/alexdalton/jira/utils/LoadImageAsync.java
+END

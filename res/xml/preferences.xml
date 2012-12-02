@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="Settings">
+		<CheckBoxPreference android:summaryOn="Allow all SSL certificates"
+			android:summaryOff="Only allow trusted SSL certificates" android:key="allowallssl"
+			android:title="Allow All SSL"></CheckBoxPreference>
+	</PreferenceCategory>
+</PreferenceScreen>

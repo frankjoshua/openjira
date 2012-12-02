@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/22/trunk/android/src/org/xmlrpc/android
+END
+XMLRPCCommon.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/22/trunk/android/src/org/xmlrpc/android/XMLRPCCommon.java
+END
+XMLRPCSerializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/22/trunk/android/src/org/xmlrpc/android/XMLRPCSerializer.java
+END
+Base64Coder.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/22/trunk/android/src/org/xmlrpc/android/Base64Coder.java
+END
+XMLRPCFault.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/22/trunk/android/src/org/xmlrpc/android/XMLRPCFault.java
+END
+XMLRPCClient.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/22/trunk/android/src/org/xmlrpc/android/XMLRPCClient.java
+END
+XMLRPCException.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/22/trunk/android/src/org/xmlrpc/android/XMLRPCException.java
+END
+IXMLRPCSerializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/22/trunk/android/src/org/xmlrpc/android/IXMLRPCSerializer.java
+END
+Tag.java
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/22/trunk/android/src/org/xmlrpc/android/Tag.java
+END
+MethodCall.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/22/trunk/android/src/org/xmlrpc/android/MethodCall.java
+END
+XMLRPCSerializable.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/22/trunk/android/src/org/xmlrpc/android/XMLRPCSerializable.java
+END
+XMLRPCServer.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/22/trunk/android/src/org/xmlrpc/android/XMLRPCServer.java
+END

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical"
+  >
+  
+    <include layout="@layout/titlebar" />
+
+  <TextView 
+  	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:id="@+id/appversion"
+	android:padding="5dip"
+	android:textStyle="bold"
+	android:textSize="13sp"
+	android:text="@string/app_name"
+  	/>
+  	
+	<TextView
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content" 
+		android:text="Server Info"
+		android:padding="5dip"
+		android:background="#dd8888ee"
+		android:textStyle="bold"
+		android:textSize="13sp"
+	/>	
+	
+
+	<LinearLayout
+	  	android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+	>
+	
+	  <TextView 
+	  	android:layout_width="80sp"
+		android:layout_height="wrap_content"
+		android:padding="5dip"
+		android:textStyle="bold"
+		android:textSize="13sp"
+		android:text="url"
+	  	/>
+
+	  <TextView 
+	  	android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/baseurl"
+		android:padding="5dip"
+		android:textStyle="bold"
+		android:textSize="13sp"
+	  	/>
+	</LinearLayout>
+
+	<LinearLayout
+	  	android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		>
+	
+	  <TextView 
+	  	android:layout_width="80sp"
+		android:layout_height="wrap_content"
+		android:padding="5dip"
+		android:textStyle="bold"
+		android:textSize="13sp"
+		android:text="edition"
+	  	/>
+	
+	  <TextView 
+	  	android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/edition"
+		android:padding="5dip"
+		android:textStyle="bold"
+		android:textSize="13sp"
+	  	/>
+	</LinearLayout> 
+	
+	<LinearLayout
+	 	android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		>
+	
+	  <TextView 
+	  	android:layout_width="80sp"
+		android:layout_height="wrap_content"
+		android:padding="5dip"
+		android:textStyle="bold"
+		android:textSize="13sp"
+		android:text="buildnr"
+	  	/>
+	 	
+	  <TextView 
+	  	android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/buildnumber"
+		android:padding="5dip"
+		android:textStyle="bold"
+		android:textSize="13sp"
+	  	/>	  	
+	</LinearLayout>
+	
+	<LinearLayout
+	  	android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		>
+	  <TextView 
+	  	android:layout_width="80sp"
+		android:layout_height="wrap_content"
+		android:padding="5dip"
+		android:textStyle="bold"
+		android:textSize="13sp"
+		android:text="builddate"
+	  	/>
+	  <TextView 
+	  	android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/builddate"
+		android:padding="5dip"
+		android:textStyle="bold"
+		android:textSize="13sp"
+	  	/>	  	
+	</LinearLayout>
+
+	<LinearLayout
+	  	android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		>
+	
+	  <TextView 
+	  	android:layout_width="80sp"
+		android:layout_height="wrap_content"
+		android:padding="5dip"
+		android:textStyle="bold"
+		android:textSize="13sp"
+		android:text="version"
+	  	/>
+  	
+	  <TextView 
+	  	android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/srvversion"
+		android:padding="5dip"
+		android:textStyle="bold"
+		android:textSize="13sp"
+	  	/>	  	
+
+	</LinearLayout>
+
+</LinearLayout>
