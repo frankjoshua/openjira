@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class CreateIssue extends Activity {
+public class CreateIssue extends BaseActivity {
     JiraApp app;
     private JiraConn conn;
 
