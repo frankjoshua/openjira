@@ -11,10 +11,19 @@
 # generated files
 bin/
 gen/
+<<<<<<< HEAD
 reports/
+=======
+>>>>>>> 6c6a57621d83d6b481c969152487525338e40331
 
 # Local configuration file (sdk path, etc)
 local.properties
 
+<<<<<<< HEAD
 #CVS
 CVS/
+=======
+# Eclipse project files
+.classpath
+.project
+>>>>>>> 6c6a57621d83d6b481c969152487525338e40331
