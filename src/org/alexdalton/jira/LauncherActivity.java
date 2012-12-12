@@ -1,6 +1,9 @@
 package org.alexdalton.jira;
 
+import java.util.ArrayList;
+
 import org.alexdalton.jira.JiraConn.LoginListener;
+import org.alexdalton.jira.model.JiraFilter;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,10 +31,14 @@ public class LauncherActivity extends BaseActivity implements OnClickListener,
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (JiraApp.get().conn.getFilters().size() > 0) {
-			setExtraButton();
-		} else {
-			JiraApp.get().conn.setOnLoginListener(this);
+		final JiraConn conn = JiraApp.get().conn;
+		if (conn != null) {
+			final ArrayList<JiraFilter> filters = conn.getFilters();
+			if (filters != null && filters.size() > 0) {
+				setExtraButton();
+			} else {
+				conn.setOnLoginListener(this);
+			}
 		}
 	}
 
