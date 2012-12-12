@@ -61,8 +61,13 @@ public class LauncherActivity extends BaseActivity implements OnClickListener,
 
 	@Override
 	public void onClick(View v) {
-
-		switch (v.getId()) {
+		//If no active connection only allow access to server list
+        final int id = v.getId();
+		if(id != R.id.btnServerList && isActiveConnection() == false){
+        	noServerFoundToast();
+        	return;
+        }
+		switch (id) {
 		case R.id.btnServerList:
 			launchServerList();
 			break;
@@ -80,7 +85,7 @@ public class LauncherActivity extends BaseActivity implements OnClickListener,
 		}
 
 	}
-
+	
 	@Override
 	public void onLoginComplete() {
 		setExtraButton();

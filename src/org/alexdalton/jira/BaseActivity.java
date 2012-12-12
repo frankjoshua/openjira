@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class BaseActivity extends Activity {
 
@@ -20,6 +22,7 @@ public class BaseActivity extends Activity {
 	}
 
 	final protected void launchFilters() {
+
 		final Intent intent = new Intent(this, JiraFilters.class);
 		intent.setData(Uri.parse("jira://showFilters?server="
 				+ JiraApp.get().servers.get(0).getName()));
@@ -33,6 +36,7 @@ public class BaseActivity extends Activity {
 	}
 
 	final protected void launchLastFilter() {
+
 		Intent i = new Intent(this, IssueList.class);
 		final int lastFilterId = PreferenceManager.getDefaultSharedPreferences(
 				this).getInt(JiraApp.LAST_FILTER, 0);
@@ -41,11 +45,32 @@ public class BaseActivity extends Activity {
 		i.putExtra("filterName",
 				JiraApp.get().conn.getFilters().get(lastFilterId).getName());
 		startActivity(i);
+
+	}
+
+	/**
+	 * Check for active connection
+	 * 
+	 * @return true if available
+	 */
+	protected boolean isActiveConnection() {
+		// TODO: Need a more reliable method
+		final JiraConn currentConnection = JiraApp.get().getCurrentConnection();
+		if (currentConnection != null && currentConnection.serverInfo != null) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
+		//If no active connection only allow access to server list
+		final int id = item.getItemId();
+		if(id != R.id.menu_server_list && isActiveConnection() == false){
+        	noServerFoundToast();
+        	return super.onOptionsItemSelected(item);
+        }
+		switch (id) {
 		case R.id.menu_last_filter:
 			launchLastFilter();
 			return true;
@@ -78,11 +103,15 @@ public class BaseActivity extends Activity {
 		progressDialog.show();
 		findViewById(R.id.progress).setVisibility(View.VISIBLE);
 		try {
-			//TODO: Login
-		    conn.doLogin(false);
+			// TODO: Login
+			conn.doLogin(false);
 		} catch (Exception e) {
-		    e.printStackTrace();
-		    findViewById(R.id.progress).setVisibility(View.GONE);
+			e.printStackTrace();
+			findViewById(R.id.progress).setVisibility(View.GONE);
 		}
+	}
+
+	protected void noServerFoundToast() {
+		Toast.makeText(this, "No connection found, please check server settings.",  Toast.LENGTH_LONG).show();
 	}
 }
