@@ -28,6 +28,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,18 +64,7 @@ public class JiraFilters extends OJActivity implements OnItemClickListener, Logi
             conn.setOnLoginListener(this);
 
             if (conn.hasCredentials()) {
-                progressDialog = new ProgressDialog(this);
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                progressDialog.setMax(100);
-                progressDialog.setTitle("Syncing");
-                progressDialog.show();
-                findViewById(R.id.progress).setVisibility(View.VISIBLE);
-                try {
-                    conn.doLogin(false);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    findViewById(R.id.progress).setVisibility(View.GONE);
-                }
+                showProgressDialog(conn);
             }
         } else {
             Toast.makeText(this, "Go to preferences to setup your account details", Toast.LENGTH_LONG).show();
@@ -93,7 +83,7 @@ public class JiraFilters extends OJActivity implements OnItemClickListener, Logi
         });
     }
 
-    @Override
+	@Override
     public void onStop() {
         super.onStop();
     }
@@ -185,6 +175,7 @@ public class JiraFilters extends OJActivity implements OnItemClickListener, Logi
                 i.putExtra("filter", conn.getFilters().get(arg2).getId());
                 i.putExtra("filterName", conn.getFilters().get(arg2).getName());
                 startActivity(i);
+                PreferenceManager.getDefaultSharedPreferences(this).edit().putInt(JiraApp.LAST_FILTER, arg2).commit();
             }
         } catch (Exception e) {
             e.printStackTrace();

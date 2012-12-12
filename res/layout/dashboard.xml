@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <Button
+        android:id="@+id/btnServerList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Server List" />
+
+    <Button
+        android:id="@+id/btnFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filters" />
+
+    <Button
+        android:id="@+id/btnIssue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Issue" />
+
+    <Button
+        android:id="@+id/btnExtra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Extra" />
+
+</LinearLayout>

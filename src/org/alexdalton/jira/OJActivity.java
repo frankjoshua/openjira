@@ -15,14 +15,13 @@
  ******************************************************************************/
 package org.alexdalton.jira;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
-public class OJActivity extends Activity {
+public class OJActivity extends BaseActivity {
     ViewGroup content;
 
     @Override
