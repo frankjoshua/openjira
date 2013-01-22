@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.alexdalton.jira.JiraConn.LoginListener;
 import org.alexdalton.jira.model.JiraFilter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -65,6 +66,7 @@ public class LauncherActivity extends BaseActivity implements OnClickListener,
         final int id = v.getId();
 		if(id != R.id.btnServerList && isActiveConnection() == false){
         	noServerFoundToast();
+        	addServer();
         	return;
         }
 		switch (id) {

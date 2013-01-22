@@ -35,25 +35,7 @@ public class JiraFilters extends OJActivity implements OnItemClickListener, Logi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.filters);
         setTheme(android.R.style.Theme_Light);
-        app = JiraApp.get();
-
-        Uri data = getIntent().getData();
-
-        if (data != null) {
-            JiraServer server = app.getServerFromName(data.getQueryParameter("server"));
-            conn = new JiraConn(server);
-            app.setCurrentConnection(conn);
-        }
-
-        if (conn != null) {
-            conn.setOnLoginListener(this);
-
-            if (conn.hasCredentials()) {
-                showProgressDialog(conn);
-            }
-        } else {
-            Toast.makeText(this, "Go to preferences to setup your account details", Toast.LENGTH_LONG).show();
-        }
+        
 
         findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -66,15 +48,12 @@ public class JiraFilters extends OJActivity implements OnItemClickListener, Logi
                 }
             }
         });
+      conn = JiraApp.get().getCurrentConnection(); 
+      conn.setOnLoginListener(this);
+//      findViewById(R.id.progress).setVisibility(View.VISIBLE);
+      getFavouriteFilters();
+//      findViewById(R.id.progress).setVisibility(View.GONE);
     }
-
-	@Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    private int currentIssue;
-    private int currentFilter;
 
     XMLRPCClient rpcClient;
     Object loginToken;
@@ -121,11 +100,11 @@ public class JiraFilters extends OJActivity implements OnItemClickListener, Logi
         boolean handled = false;
         switch (item.getItemId()) {
             case MENU_REFRESH:
-                progressDialog = new ProgressDialog(this);
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                progressDialog.setMax(100);
-                progressDialog.setTitle("Syncing");
-                progressDialog.show();
+                setProgressDialog(new ProgressDialog(this));
+                getProgressDialog().setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                getProgressDialog().setMax(100);
+                getProgressDialog().setTitle("Syncing");
+                getProgressDialog().show();
                 conn.doRefresh();
                 handled = true;
                 break;
@@ -170,41 +149,36 @@ public class JiraFilters extends OJActivity implements OnItemClickListener, Logi
     public void onLoginComplete() {
         this.runOnUiThread(new Runnable() {
             public void run() {
-                findViewById(R.id.progress).setVisibility(View.VISIBLE);
+ //               findViewById(R.id.progress).setVisibility(View.VISIBLE);
                 getFavouriteFilters();
-                findViewById(R.id.progress).setVisibility(View.GONE);
-                if (progressDialog != null && progressDialog.isShowing())
-                    progressDialog.dismiss();
+//                findViewById(R.id.progress).setVisibility(View.GONE);
+//                if (getProgressDialog() != null && getProgressDialog().isShowing())
+//                    getProgressDialog().dismiss();
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     public void onLoginError(final Exception e) {
-        this.runOnUiThread(new Runnable() {
-            public void run() {
-                Toast.makeText(JiraFilters.this, "Connection error: " + e, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        this.runOnUiThread(new Runnable() {
+//            public void run() {
+//                Toast.makeText(JiraFilters.this, "Connection error: " + e, Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
-    ProgressDialog progressDialog;
+    
 
     public void onSyncProgress(final String message, final int progress, final int max) {
-        runOnUiThread(new Runnable() {
-            public void run() {
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    if (message != null)
-                        progressDialog.setTitle(message);
-                    progressDialog.setMax(max);
-                    progressDialog.setProgress(progress);
-                }
-            }
-        });
+//        runOnUiThread(new Runnable() {
+//            public void run() {
+//                if (getProgressDialog() != null && getProgressDialog().isShowing()) {
+//                    if (message != null)
+//                        getProgressDialog().setTitle(message);
+//                    getProgressDialog().setMax(max);
+//                    getProgressDialog().setProgress(progress);
+//                }
+//            }
+//        });
     }
 
 }

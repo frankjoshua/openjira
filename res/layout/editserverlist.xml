@@ -24,7 +24,8 @@
 		    android:layout_height="wrap_content"
 		    android:layout_weight="0"
 		    android:inputType="textUri"
-		    android:scrollbars="none" />
+		    android:scrollbars="none"
+		    android:text="https://" />
 
 	</LinearLayout>
 	<LinearLayout android:layout_width="fill_parent"

@@ -124,7 +124,6 @@ public class EditServer extends Activity {
                                 bundle.putString(JiraServersDB.KEY_URL, url);
                                 bundle.putString(JiraServersDB.KEY_USER, user);
                                 bundle.putString(JiraServersDB.KEY_PASSWORD, pass);
-
                                 // Return Bundle and close
                                 Intent mIntent = new Intent();
                                 mIntent.putExtras(bundle);

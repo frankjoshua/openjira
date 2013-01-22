@@ -14,6 +14,8 @@ public class JiraApp extends Application implements
 
 	public static final String LAST_FILTER = "last_filter";
 
+	public static final String SELECTED_SERVER = "selected_server";
+
 	private static JiraApp app;
 
 	public boolean allowAllSSL;
@@ -42,7 +44,7 @@ public class JiraApp extends Application implements
 			//Set first server as default
 			conn = new JiraConn(servers.get(0));
 			try {
-				conn.doLogin(false);
+				conn.doLogin(true);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
