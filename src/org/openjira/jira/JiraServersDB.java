@@ -75,9 +75,7 @@ public class JiraServersDB extends SQLiteOpenHelper {
     
     public ArrayList<JiraServer> getServerList() {
         ArrayList<JiraServer> servers = new ArrayList<JiraServer>();
-        SQLiteDatabase db = getReadableDatabase();
-        String[] cols = {KEY_ID, KEY_NAME, KEY_URL, KEY_USER, KEY_PASSWORD};
-        Cursor res = db.query(DATABASE_TABLE, cols, "1", null, null, null, null);
+        Cursor res = getServerListCursor();
         for (int i = 0; i < res.getCount(); i++) {
             res.moveToPosition(i);
             servers.add(new JiraServer(res.getInt(0), res.getString(1), res.getString(2), res.getString(3), res.getString(4)));
@@ -85,6 +83,13 @@ public class JiraServersDB extends SQLiteOpenHelper {
         res.close();
         return servers;
     }
+
+	public Cursor getServerListCursor() {
+		SQLiteDatabase db = getReadableDatabase();
+        String[] cols = {KEY_ID, KEY_NAME, KEY_URL, KEY_USER, KEY_PASSWORD};
+        Cursor res = db.query(DATABASE_TABLE, cols, "1", null, null, null, null);
+		return res;
+	}
 
     /**
      * Update the server using the details provided. The server to be updated is

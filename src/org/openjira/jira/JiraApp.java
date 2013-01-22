@@ -18,10 +18,13 @@ package org.openjira.jira;
 import java.util.ArrayList;
 
 import org.openjira.jira.model.JiraServer;
+import org.openjira.jiraservice.JiraContentProvider;
 
 import android.app.Application;
+import android.content.ContentResolver;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.database.Cursor;
 import android.preference.PreferenceManager;
 
 public class JiraApp extends Application implements
@@ -50,7 +53,7 @@ public class JiraApp extends Application implements
 	loadPreferences(prefs, true);
 	prefs.registerOnSharedPreferenceChangeListener(this);
 	db = new JiraServersDB(this);
-	servers = db.getServerList();
+	servers = getServerArrayList();
     }
 
     @Override
@@ -79,8 +82,20 @@ public class JiraApp extends Application implements
     public void addServer(String name, String url, String user, String pass) {
 	// TODO Auto-generated method stub
 	db.addServer(new JiraServer(name, url, user, pass));
-	servers = db.getServerList();
+	servers = getServerArrayList();
     }
+
+	private ArrayList<JiraServer> getServerArrayList() {
+		final ArrayList<JiraServer> jiraServerList = new ArrayList<JiraServer>();
+		ContentResolver cr = getContentResolver();
+		Cursor serverCursor = cr.query(JiraContentProvider.CONTENT_URI, null, null, null, null);
+		 for (int i = 0; i < serverCursor.getCount(); i++) {
+			 serverCursor.moveToPosition(i);
+			 jiraServerList.add(new JiraServer(serverCursor.getInt(0), serverCursor.getString(1), serverCursor.getString(2), serverCursor.getString(3), serverCursor.getString(4)));
+	        }
+		 serverCursor.close();
+		return jiraServerList;
+	}
 
     public ArrayList<JiraServer> getServerList() {
 	return servers;
@@ -105,7 +120,7 @@ public class JiraApp extends Application implements
 	db.deleteServer(getServerFromName(serverName));
 	// TODO: inefficient but simple... need to change it for performance
 	// issues
-	servers = db.getServerList();
+	servers = getServerArrayList();
     }
 
     /**
@@ -126,7 +141,7 @@ public class JiraApp extends Application implements
 	if (db.updateServer(new JiraServer(serverId, serverName, serverUrl, username, password))) {
 	    // TODO: inefficient but simple... need to change it for performance
 	    // issues, reload updated server only
-	    servers = db.getServerList();
+	    servers = getServerArrayList();
 	}
     }
 }
