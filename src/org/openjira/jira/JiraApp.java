@@ -22,126 +22,137 @@ import org.openjira.jiraservice.JiraContentProvider;
 
 import android.app.Application;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 
-public class JiraApp extends Application implements
-	OnSharedPreferenceChangeListener {
+public class JiraApp extends Application implements OnSharedPreferenceChangeListener {
 
-    private static JiraApp app;
+	private static JiraApp app;
 
-    public boolean allowAllSSL;
+	public boolean allowAllSSL;
 
-    public JiraConn conn;
+	public JiraConn conn;
 
-    private JiraServersDB db;
+	private void loadPreferences(final SharedPreferences prefs, final boolean startup) {
 
-    private void loadPreferences(SharedPreferences prefs, boolean startup) {
+		this.allowAllSSL = prefs.getBoolean("allowallssl", false);
+	}
 
-	allowAllSSL = prefs.getBoolean("allowallssl", false);
-    }
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		app = this;
 
-    @Override
-    public void onCreate() {
-	super.onCreate();
-	app = this;
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		loadPreferences(prefs, true);
+		prefs.registerOnSharedPreferenceChangeListener(this);
 
-	SharedPreferences prefs = PreferenceManager
-		.getDefaultSharedPreferences(this);
-	loadPreferences(prefs, true);
-	prefs.registerOnSharedPreferenceChangeListener(this);
-	db = new JiraServersDB(this);
-	servers = getServerArrayList();
-    }
+		this.servers = getServerArrayList();
+	}
 
-    @Override
-    public void onTerminate() {
-	super.onTerminate();
-    }
+	@Override
+	public void onTerminate() {
+		super.onTerminate();
+	}
 
-    public static JiraApp get() {
-	return app;
-    }
+	public static JiraApp get() {
+		return app;
+	}
 
-    public void onSharedPreferenceChanged(SharedPreferences arg0, String arg1) {
-	loadPreferences(arg0, false);
-    }
+	@Override
+	public void onSharedPreferenceChanged(final SharedPreferences arg0, final String arg1) {
+		loadPreferences(arg0, false);
+	}
 
-    public JiraConn getCurrentConnection() {
-	return conn;
-    }
+	public JiraConn getCurrentConnection() {
+		return this.conn;
+	}
 
-    public void setCurrentConnection(JiraConn conn) {
-	this.conn = conn;
-    }
+	public void setCurrentConnection(final JiraConn conn) {
+		this.conn = conn;
+	}
 
-    ArrayList<JiraServer> servers = new ArrayList<JiraServer>();
+	ArrayList<JiraServer> servers = new ArrayList<JiraServer>();
 
-    public void addServer(String name, String url, String user, String pass) {
-	// TODO Auto-generated method stub
-	db.addServer(new JiraServer(name, url, user, pass));
-	servers = getServerArrayList();
-    }
+	public void addServer(final String name, final String url, final String user, final String pass) {
+		final ContentValues args = new ContentValues();
+		args.put(JiraServersDB.KEY_NAME, name);
+		args.put(JiraServersDB.KEY_URL, url);
+		args.put(JiraServersDB.KEY_USER, user);
+		args.put(JiraServersDB.KEY_PASSWORD, pass);
+
+		final ContentResolver cr = getContentResolver();
+		cr.insert(JiraContentProvider.CONTENT_URI, args);
+
+		this.servers = getServerArrayList();
+	}
 
 	private ArrayList<JiraServer> getServerArrayList() {
 		final ArrayList<JiraServer> jiraServerList = new ArrayList<JiraServer>();
-		ContentResolver cr = getContentResolver();
-		Cursor serverCursor = cr.query(JiraContentProvider.CONTENT_URI, null, null, null, null);
-		 for (int i = 0; i < serverCursor.getCount(); i++) {
-			 serverCursor.moveToPosition(i);
-			 jiraServerList.add(new JiraServer(serverCursor.getInt(0), serverCursor.getString(1), serverCursor.getString(2), serverCursor.getString(3), serverCursor.getString(4)));
-	        }
-		 serverCursor.close();
+		final ContentResolver cr = getContentResolver();
+		final Cursor serverCursor = cr.query(JiraContentProvider.CONTENT_URI, null, null, null, null);
+		for (int i = 0; i < serverCursor.getCount(); i++) {
+			serverCursor.moveToPosition(i);
+			jiraServerList.add(new JiraServer(serverCursor.getInt(0), serverCursor.getString(1), serverCursor.getString(2), serverCursor.getString(3),
+					serverCursor.getString(4)));
+		}
+		serverCursor.close();
 		return jiraServerList;
 	}
 
-    public ArrayList<JiraServer> getServerList() {
-	return servers;
-    }
-
-    public JiraServer getServerFromName(String name) {
-	for (int i = 0; i < servers.size(); i++) {
-	    if (servers.get(i).getName().equals(name)) {
-		return servers.get(i);
-	    }
+	public ArrayList<JiraServer> getServerList() {
+		return this.servers;
 	}
-	return null;
-    }
 
-    /**
-     * delete a given server from database
-     * 
-     * @param serverName
-     *            Servername that is being deleted
-     */
-    public void deleteServer(String serverName) {
-	db.deleteServer(getServerFromName(serverName));
-	// TODO: inefficient but simple... need to change it for performance
-	// issues
-	servers = getServerArrayList();
-    }
-
-    /**
-     * Update the server using the details provided. The server to be updated is
-     * specified using the serverId.
-     * 
-     * On successful update the serverlist will be reloaded
-     * 
-     * @see org.openjira.jira.JiraServersDB
-     * 
-     * @param serverName
-     * @param password
-     * @param username
-     * @param serverUrl
-     */
-    public void updateServer(int serverId, String serverName, String serverUrl,
-	    String username, String password) {
-	if (db.updateServer(new JiraServer(serverId, serverName, serverUrl, username, password))) {
-	    // TODO: inefficient but simple... need to change it for performance
-	    // issues, reload updated server only
-	    servers = getServerArrayList();
+	public JiraServer getServerFromName(final String name) {
+		for (int i = 0; i < this.servers.size(); i++) {
+			if (this.servers.get(i).getName().equals(name)) {
+				return this.servers.get(i);
+			}
+		}
+		return null;
 	}
-    }
+
+	/**
+	 * delete a given server from database
+	 * 
+	 * @param serverName
+	 *            Servername that is being deleted
+	 */
+	public void deleteServer(final String serverName) {
+		final ContentResolver cr = getContentResolver();
+		cr.delete(JiraContentProvider.CONTENT_URI, JiraServersDB.KEY_NAME + "=\"" + serverName + "\"", null);
+		// db.deleteServer(getServerFromName(serverName));
+		// TODO: inefficient but simple... need to change it for performance
+		// issues
+		this.servers = getServerArrayList();
+	}
+
+	/**
+	 * Update the server using the details provided. The server to be updated is
+	 * specified using the serverId.
+	 * 
+	 * On successful update the serverlist will be reloaded
+	 * 
+	 * @see org.openjira.jira.JiraServersDB
+	 * 
+	 * @param serverName
+	 * @param password
+	 * @param username
+	 * @param serverUrl
+	 */
+	public void updateServer(final int serverId, final String serverName, final String serverUrl, final String username, final String password) {
+		final ContentValues args = new ContentValues();
+		args.put(JiraServersDB.KEY_NAME, serverName);
+		args.put(JiraServersDB.KEY_URL, serverUrl);
+		args.put(JiraServersDB.KEY_USER, username);
+		args.put(JiraServersDB.KEY_PASSWORD, password);
+
+		final ContentResolver cr = getContentResolver();
+		cr.update(JiraContentProvider.CONTENT_URI, args, JiraServersDB.KEY_ID + "=" + serverId, null);
+		this.servers = getServerArrayList();
+	}
 }
