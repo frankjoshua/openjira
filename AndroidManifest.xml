@@ -63,6 +63,7 @@
             android:name="org.openjira.jiraservice.JiraContentProvider"
             android:authorities="org.openjira.jiraservice" >
         </provider>
+        <service android:name="JiraConn"></service>
     </application>
 
 </manifest>

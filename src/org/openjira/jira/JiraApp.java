@@ -17,15 +17,21 @@ package org.openjira.jira;
 
 import java.util.ArrayList;
 
+import org.openjira.jira.JiraConn.LocalBinder;
 import org.openjira.jira.model.JiraServer;
 import org.openjira.jiraservice.JiraContentProvider;
 
 import android.app.Application;
+import android.app.Service;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.Cursor;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 
 public class JiraApp extends Application implements OnSharedPreferenceChangeListener {
@@ -34,7 +40,23 @@ public class JiraApp extends Application implements OnSharedPreferenceChangeList
 
 	public boolean allowAllSSL;
 
-	public JiraConn conn;
+	private JiraConn conn;
+
+	private final ServiceConnection connection = new ServiceConnection() {
+
+		@Override
+		public void onServiceDisconnected(final ComponentName name) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onServiceConnected(final ComponentName name, final IBinder service) {
+			final JiraConn jiraConn = ((LocalBinder) service).getInstance();
+			JiraApp.this.conn = jiraConn;
+
+		}
+	};
 
 	private void loadPreferences(final SharedPreferences prefs, final boolean startup) {
 
@@ -51,11 +73,10 @@ public class JiraApp extends Application implements OnSharedPreferenceChangeList
 		prefs.registerOnSharedPreferenceChangeListener(this);
 
 		this.servers = getServerArrayList();
-	}
 
-	@Override
-	public void onTerminate() {
-		super.onTerminate();
+		// Create Connection Service
+		final Intent service = new Intent(this, JiraConn.class);
+		bindService(service, this.connection, Service.BIND_AUTO_CREATE);
 	}
 
 	public static JiraApp get() {
@@ -71,9 +92,9 @@ public class JiraApp extends Application implements OnSharedPreferenceChangeList
 		return this.conn;
 	}
 
-	public void setCurrentConnection(final JiraConn conn) {
-		this.conn = conn;
-	}
+	// public void setCurrentConnection(final JiraConn conn) {
+	// this.conn = conn;
+	// }
 
 	ArrayList<JiraServer> servers = new ArrayList<JiraServer>();
 
@@ -85,7 +106,7 @@ public class JiraApp extends Application implements OnSharedPreferenceChangeList
 		args.put(JiraServersDB.KEY_PASSWORD, pass);
 
 		final ContentResolver cr = getContentResolver();
-		cr.insert(JiraContentProvider.CONTENT_URI, args);
+		cr.insert(JiraContentProvider.CONTENT_URI_SERVERS, args);
 
 		this.servers = getServerArrayList();
 	}
@@ -93,7 +114,9 @@ public class JiraApp extends Application implements OnSharedPreferenceChangeList
 	private ArrayList<JiraServer> getServerArrayList() {
 		final ArrayList<JiraServer> jiraServerList = new ArrayList<JiraServer>();
 		final ContentResolver cr = getContentResolver();
-		final Cursor serverCursor = cr.query(JiraContentProvider.CONTENT_URI, null, null, null, null);
+		final String[] projection = new String[] { JiraServersDB.KEY_ID, JiraServersDB.KEY_NAME, JiraServersDB.KEY_URL, JiraServersDB.KEY_USER,
+				JiraServersDB.KEY_PASSWORD };
+		final Cursor serverCursor = cr.query(JiraContentProvider.CONTENT_URI_SERVERS, projection, null, null, null);
 		for (int i = 0; i < serverCursor.getCount(); i++) {
 			serverCursor.moveToPosition(i);
 			jiraServerList.add(new JiraServer(serverCursor.getInt(0), serverCursor.getString(1), serverCursor.getString(2), serverCursor.getString(3),
@@ -124,7 +147,7 @@ public class JiraApp extends Application implements OnSharedPreferenceChangeList
 	 */
 	public void deleteServer(final String serverName) {
 		final ContentResolver cr = getContentResolver();
-		cr.delete(JiraContentProvider.CONTENT_URI, JiraServersDB.KEY_NAME + "=\"" + serverName + "\"", null);
+		cr.delete(JiraContentProvider.CONTENT_URI_SERVERS, JiraServersDB.KEY_NAME + "=\"" + serverName + "\"", null);
 		// db.deleteServer(getServerFromName(serverName));
 		// TODO: inefficient but simple... need to change it for performance
 		// issues
@@ -152,7 +175,7 @@ public class JiraApp extends Application implements OnSharedPreferenceChangeList
 		args.put(JiraServersDB.KEY_PASSWORD, password);
 
 		final ContentResolver cr = getContentResolver();
-		cr.update(JiraContentProvider.CONTENT_URI, args, JiraServersDB.KEY_ID + "=" + serverId, null);
+		cr.update(JiraContentProvider.CONTENT_URI_SERVERS, args, JiraServersDB.KEY_ID + "=" + serverId, null);
 		this.servers = getServerArrayList();
 	}
 }

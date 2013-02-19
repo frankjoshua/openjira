@@ -1,5 +1,6 @@
 package org.openjira.jiraservice;
 
+import org.openjira.jira.JiraDB;
 import org.openjira.jira.JiraServersDB;
 
 import android.content.ContentProvider;
@@ -12,12 +13,16 @@ import android.net.Uri;
 
 public class JiraContentProvider extends ContentProvider {
 
-	private static final String PATH = "servers";
+	private static final String PATH_SERVERS = "servers";
+	private static final String PATH_FILTERS = "filters";
 	private static final String AUTHORITY = "org.openjira.jiraservice";
-	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + PATH);
+	public static final Uri CONTENT_URI_SERVERS = Uri.parse("content://" + AUTHORITY + "/" + PATH_SERVERS);
+	public static final Uri CONTENT_URI_DATA = Uri.parse("content://" + AUTHORITY + "/" + PATH_FILTERS);
 
-	private static final int ALL_ROWS = 1;
-	private static final int SINGLE_ROW = 2;
+	private static final int ALL_ROWS_SERVERS = 1;
+	private static final int SINGLE_ROW_SERVERS = 2;
+	private static final int ALL_ROWS_FILTERS = 3;
+	private static final int SINGLE_ROW_FILTERS = 4;
 
 	private static final UriMatcher uriMatcher;
 
@@ -25,8 +30,10 @@ public class JiraContentProvider extends ContentProvider {
 
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-		uriMatcher.addURI(AUTHORITY, PATH, ALL_ROWS);
-		uriMatcher.addURI(AUTHORITY, PATH + "/#", SINGLE_ROW);
+		uriMatcher.addURI(AUTHORITY, PATH_SERVERS, ALL_ROWS_SERVERS);
+		uriMatcher.addURI(AUTHORITY, PATH_SERVERS + "/#", SINGLE_ROW_SERVERS);
+		uriMatcher.addURI(AUTHORITY, PATH_FILTERS, ALL_ROWS_FILTERS);
+		uriMatcher.addURI(AUTHORITY, PATH_FILTERS + "/#", SINGLE_ROW_FILTERS);
 	}
 
 	@Override
@@ -41,14 +48,21 @@ public class JiraContentProvider extends ContentProvider {
 		final SQLiteDatabase db = this.jiraServersDB.getWritableDatabase();
 
 		final String rowSelection;
+		final String databaseTable;
 		// Switch base on Uri type
 		switch (uriMatcher.match(uri)) {
-		case ALL_ROWS:
+		case ALL_ROWS_SERVERS:
 			rowSelection = null;
+			databaseTable = JiraServersDB.DATABASE_TABLE;
 			break;
-		case SINGLE_ROW:
+		case SINGLE_ROW_SERVERS:
 			final String rowId = uri.getPathSegments().get(1);
 			rowSelection = JiraServersDB.KEY_ID + "=" + rowId;
+			databaseTable = JiraServersDB.DATABASE_TABLE;
+			break;
+		case ALL_ROWS_FILTERS:
+			rowSelection = null;
+			databaseTable = JiraDB.TABLE_FILTERS;
 			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI:  " + uri);
@@ -67,7 +81,8 @@ public class JiraContentProvider extends ContentProvider {
 		}
 
 		// Delete select rows
-		final int rowsDeleted = db.delete(JiraServersDB.DATABASE_TABLE, finalSelection, selectionArgs);
+
+		final int rowsDeleted = db.delete(databaseTable, finalSelection, selectionArgs);
 
 		return rowsDeleted;
 	}
@@ -76,9 +91,9 @@ public class JiraContentProvider extends ContentProvider {
 	public String getType(final Uri uri) {
 		// Return MIME type
 		switch (uriMatcher.match(uri)) {
-		case ALL_ROWS:
+		case ALL_ROWS_SERVERS:
 			return "vnd.android.cursor.dir/vnd.openjira.elemental";
-		case SINGLE_ROW:
+		case SINGLE_ROW_SERVERS:
 			return "vnd.android.cursor.item/vnd.openjira.elemental";
 		default:
 			throw new IllegalArgumentException("Unsupported URI:  " + uri);
@@ -94,7 +109,7 @@ public class JiraContentProvider extends ContentProvider {
 
 		if (id > -1) {
 			// Create Uri pointing to created row
-			final Uri insertedUri = ContentUris.withAppendedId(CONTENT_URI, id);
+			final Uri insertedUri = ContentUris.withAppendedId(CONTENT_URI_SERVERS, id);
 			// Notify observers about data set change
 			getContext().getContentResolver().notifyChange(uri, null);
 			return insertedUri;
@@ -110,13 +125,16 @@ public class JiraContentProvider extends ContentProvider {
 		final String rowSelection;
 		// Switch base on Uri type
 		switch (uriMatcher.match(uri)) {
-		case ALL_ROWS:
+		case ALL_ROWS_SERVERS:
 			// 1 == true == return everything
 			rowSelection = "1";
 			break;
-		case SINGLE_ROW:
+		case SINGLE_ROW_SERVERS:
 			final String rowId = uri.getPathSegments().get(1);
 			rowSelection = JiraServersDB.KEY_ID + "=" + rowId;
+			break;
+		case ALL_ROWS_FILTERS:
+			rowSelection = null;
 			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI:  " + uri);
@@ -129,10 +147,9 @@ public class JiraContentProvider extends ContentProvider {
 		} else {
 			finalSelection = rowSelection;
 		}
-		// Default return columns
-		final String[] cols = { JiraServersDB.KEY_ID, JiraServersDB.KEY_NAME, JiraServersDB.KEY_URL, JiraServersDB.KEY_USER, JiraServersDB.KEY_PASSWORD };
+
 		// Return cursor
-		return db.query(JiraServersDB.DATABASE_TABLE, cols, finalSelection, selectionArgs, null, null, sortOrder);
+		return db.query(JiraServersDB.DATABASE_TABLE, projection, finalSelection, selectionArgs, null, null, sortOrder);
 	}
 
 	@Override
@@ -142,10 +159,10 @@ public class JiraContentProvider extends ContentProvider {
 		final String rowSelection;
 		// Switch base on Uri type
 		switch (uriMatcher.match(uri)) {
-		case ALL_ROWS:
+		case ALL_ROWS_SERVERS:
 			rowSelection = null;
 			break;
-		case SINGLE_ROW:
+		case SINGLE_ROW_SERVERS:
 			final String rowId = uri.getPathSegments().get(1);
 			rowSelection = JiraServersDB.KEY_ID + "=" + rowId;
 			break;
